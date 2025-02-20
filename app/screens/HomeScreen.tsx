@@ -14,7 +14,7 @@ export default function HomeScreen1 () {
       const nivel = new ObtenerNivelAgua().execute().nivel;
       setNivelAgua(nivel);
 
-      // Determinar estado de la bomba (ejemplo: encendida si está vacío)
+      // estado de la bomba, se enciende si esta vacio
       const bomba = new BombaAgua().execute(nivel === 'Vacio');
       setEstadoBomba(bomba);
     };

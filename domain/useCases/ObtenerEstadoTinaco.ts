@@ -3,7 +3,7 @@ import { TinacoAgua } from "../entities/Tinaco";
 
 export class ObtenerNivelAgua{
   execute(): TinacoAgua {
-    // Simulando una consulta de nivel de agua
+    // por ahora se simula una consulta
     return new TinacoAgua('Medio');
   }
 }
