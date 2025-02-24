@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, StatusBar } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import Boton from '@/components/components/botones';
 import { ObtenerNivelAgua } from '@/domain/useCases/ObtenerEstadoTinaco';
 import { BombaAgua } from '@/domain/useCases/OnOff';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen1 () {
   const [nivelAgua, setNivelAgua] = useState('');
@@ -23,47 +25,78 @@ export default function HomeScreen1 () {
   }, []);
 
   return (
+   
+    <LinearGradient
+    colors={['#B3E5FC', '#81D4FA', '#4FC3F7']}
+    style={style.linear}
+  >
     <View style={style.container}>
       <Text style={style.title}>Sistema de Control de Tinaco</Text>
-      <Boton estiloBoton={style.button1} texto='MODO MANUAL' onPress={() => console.log('Manual')} />
-      <Boton estiloBoton={style.button2} texto='MODO AUTOMÁTICO' onPress={() => console.log('Automático')} />
-<View style={style.content}>
-      <Text style={style.status}>Estado del Tinaco: {nivelAgua}</Text>
-      <Text style={style.status}>Estado de la Bomba: {estadoBomba}</Text>
-</View>
+
+      <View style={style.buttonContainer}>
+      <Boton estiloBoton={style.button1} 
+        texto='MODO MANUAL' 
+        onPress={() => console.log('Manual')} 
+        />
+      <Boton estiloBoton={style.button2} 
+        texto='MODO AUTOMÁTICO' 
+        onPress={() => console.log('Automático')} 
+        />
+      </View>
+
+      <View style={style.contentStatus}>
+        <Text style={style.status}>Estado del Tinaco: {nivelAgua}</Text>
+        <Text style={style.status}>Estado de la Bomba: {estadoBomba}</Text>
+      </View>
     </View>
+  </LinearGradient>
   );
 };
 
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: 'white',
+    borderRadius: 15,
+    paddingHorizontal: 5,
+    justifyContent: 'space-around',
     alignItems: 'center',
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 5 },
+  },
+  linear:{
+    flex: 1,
     padding: 20,
-    backgroundColor:'white',
+    justifyContent: 'center',
   },
   title: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
-    marginBottom: 200,
+    marginBottom: 500,
+  },
+  buttonContainer: {
+    position:'absolute',
+    width:'75%',
+    height:'50%',
   },
   button1:{
     borderRadius:20,
     backgroundColor:'#3b7583',
-    padding:10,
-    marginTop:10,
+    width:250,
+    marginTop:100,
   },
   button2:{
     borderRadius:20,
+      width:250,
     backgroundColor:'#3b7583',
-    padding:10,
   },
   status: {
     fontSize: 16,
     fontWeight: '600',
+    color:'gray',
   },
-  content:{
+  contentStatus:{
     position:'absolute',
     marginTop:450,
   }

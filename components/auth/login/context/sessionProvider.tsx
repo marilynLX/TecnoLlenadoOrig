@@ -1,8 +1,10 @@
 
 // proveedor de estado de sesión
 import { auth } from "@/lib/firebase";
-import { onAuthStateChanged, signInWithEmailAndPassword, User } from "firebase/auth";
+import { onAuthStateChanged, signInWithEmailAndPassword, updateCurrentUser, updateProfile, User } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
+import { signOut } from "firebase/auth";
+
 
 // estructura del estado
 //type User = { name: string };
@@ -16,6 +18,8 @@ type ContextDefinition = {
   // funciones
   login: (email: string, password: string) => void; //autentifica llamando a firebase
   logout: () => void; //cierra la secion
+  update:(name: string, phone?: string)=> void;
+ 
 }
 
 // objeto context
@@ -31,9 +35,6 @@ const SessionProvider = (
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
   const [message, setMessage] = useState<string | undefined>(undefined);
-
-
-
 
   //cuando se carge el probedor verificar una sesion existente
   useEffect(() => {
@@ -69,16 +70,28 @@ const SessionProvider = (
     })
   }
 
-  const logout = () => {
-    //signOut(auth).then(() => {
-      // ToDo
-    /*
-    })
-    .catch(() => {
-      setMessage("No se pudo cerrar sesión");
-    });
-    */
-  }
+
+ const logout = () => {
+  signOut(auth).then(() => {
+    setUser(null); 
+    setMessage(undefined);
+  })
+  .catch(() => {
+    setMessage("No se pudo cerrar sesion");
+  });
+}
+
+  const update = (name: string, phone?:string) => {
+  if(!auth.currentUser) return;
+
+  updateProfile(auth.currentUser, {
+    displayName: name,
+  }) .then(()=>{
+    setMessage("El perfil ha sido actualizado correctamente")
+}) .catch((error)=> {
+  setMessage(`Error ${error.message}`);
+});
+}
 
   return (
     <SessionContext.Provider value={{
@@ -88,6 +101,7 @@ const SessionProvider = (
       
       login,
       logout,
+      update,
     }}>
       {children}
     </SessionContext.Provider>

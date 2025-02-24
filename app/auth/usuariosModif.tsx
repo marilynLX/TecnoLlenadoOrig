@@ -6,6 +6,7 @@ export default function usuariosModifi() {
   return (
     <View style={style.container}>
         <Text>Modificar Usuarios</Text>
+        
         <Text>Editar</Text>
         <Text>Eliminar</Text>
     </View>
