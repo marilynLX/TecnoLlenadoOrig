@@ -1,9 +1,7 @@
-import { TinacoAgua } from "../entities/Tinaco";
-
-
-export class ObtenerNivelAgua{
-  execute(): TinacoAgua {
-    // por ahora se simula una consulta
-    return new TinacoAgua('Medio');
+{/*export class ObtenerNivelAgua {
+  execute(): { nivel: string } {
+    // Aquí iría la lógica de obtención del nivel de agua desde el repositorio.
+    return { nivel: 'Lleno' }; // Simulación
   }
 }
+*/}

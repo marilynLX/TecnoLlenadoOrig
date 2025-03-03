@@ -6,7 +6,9 @@ export class TinacoAgua {
   isVacio() {
     return this.nivel === 'Vacio';
   }
-
+  isMedio() {
+    return this.nivel === 'Medio';
+  }
   isLleno() {
     return this.nivel === 'Lleno';
   }

@@ -1,65 +1,65 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, TextInput, Button, Text } from 'react-native'
-import { useSessionState } from './context/sessionProvider'
-import { router } from 'expo-router'
-import { LinearGradient } from 'expo-linear-gradient'
-
-
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, TextInput, Button, Text } from 'react-native';
+import { useSessionState } from './context/sessionProvider';
+import { router } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
+import RegisterScreen from './profile/registerScreen';
 
 export default function LoginView() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-//  const [loading, setLoading] = useState(false)
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  //consumir el provedor de sesion
-  const {loading, login, user} =useSessionState();
+  // Consumir el proveedor de sesión
+  const { loading, login, user } = useSessionState();
 
   async function signInWithEmail() {
     login(email, password);
-    //TODO
+  }
+
+  useEffect(() => {
+    if (user) {
+      router.replace('/(tabs)');
     }
-useEffect(()=> {
-    if(user){
-        router.replace("/(tabs)");
-    }
-}, [user])
+  }, [user]);
 
   return (
-    <LinearGradient
-       colors={['#B3E5FC', '#81D4FA', '#4FC3F7']}
-       style={styles.linear}>
+    <LinearGradient colors={['#B3E5FC', '#81D4FA', '#4FC3F7']} style={styles.linear}>
+      <View style={styles.container}>
+        <View style={[styles.verticallySpaced, styles.mt20]}>
+          <Text>Email</Text>
+          <TextInput
+            onChangeText={(text) => setEmail(text)}
+            value={email}
+            placeholder="email@address.com"
+            autoCapitalize="none"
+          />
+        </View>
+        <View style={styles.verticallySpaced}>
+          <Text>Password</Text>
+          <TextInput
+            onChangeText={(text) => setPassword(text)}
+            value={password}
+            secureTextEntry={true}
+            placeholder="Password"
+            autoCapitalize="none"
+          />
+        </View>
+        <View style={[styles.verticallySpaced, styles.mt20]}>
+          <Button title="Iniciar sesión" disabled={loading} onPress={signInWithEmail} />
+        </View>
 
-    <View style={styles.container}>
-      <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Text>Email</Text>
-        <TextInput
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-          placeholder="email@address.com"
-          autoCapitalize={'none'}
-        />
+        {/* Botón para registrarse si no tiene cuenta */}
+        <View style={styles.mt20}>
+          <Button title="¿No tienes cuenta? Regístrate" onPress={() => router.push('/auth/registerView')} />
+        </View>
       </View>
-      <View style={styles.verticallySpaced}>
-      <Text>Password</Text>
-        <TextInput
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          secureTextEntry={true}
-          placeholder="Password"
-          autoCapitalize={'none'}
-        />
-      </View>
-      <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Button title="Sign in" disabled={loading} onPress={() => signInWithEmail()} />
-      </View>
-    </View>
     </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginStart:20,
+    marginStart: 20,
     width: '90%',
     padding: 20,
     backgroundColor: 'white',
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  linear:{
+  linear: {
     flex: 1,
     padding: 20,
     justifyContent: 'center',
@@ -83,4 +83,4 @@ const styles = StyleSheet.create({
   mt20: {
     marginTop: 20,
   },
-})
+});
