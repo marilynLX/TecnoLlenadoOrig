@@ -53,7 +53,7 @@ export default function AlertsScreen() {
   
 
   return (
-    <LinearGradient colors={['#B3E5FC', '#81D4FA', '#4FC3F7']} style={style.linear}>
+    <LinearGradient colors={['#2193b0', '#6dd5ed']} style={style.linear}>
       <View style={style.container}>
         <Text style={style.title}>Alertas</Text>
 

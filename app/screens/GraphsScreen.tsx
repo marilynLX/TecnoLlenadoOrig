@@ -1,14 +1,16 @@
 // Simulacion-consumir-firease.tsx
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Slider from '@react-native-community/slider';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { subscribeTinacoData } from '@/lib/service1';
+import EditTinacoModal from './EditTinacoModal';
 
 // Altura fija del contenedor que simula el tinaco
 const TINACO_HEIGHT = 300;
+
 
 // Definimos un tipo para los datos que vienen desde Firestore
 interface TinacoData {
@@ -18,6 +20,7 @@ interface TinacoData {
 }
 
 export default function SimulacionDatosTinacoScreen() {
+  const [isModalVisible, setIsModalVisible] = useState(false);
   // Estado para almacenar los datos de Firestore
   const [firebaseTinaco, setFirebaseTinaco] = useState<TinacoData>({});
   // Estado para el nivel simulado, valor ingresado por el usuario (1 a 100)
@@ -61,7 +64,7 @@ export default function SimulacionDatosTinacoScreen() {
 
   return (
     <LinearGradient
-      colors={['#B3E5FC', '#81D4FA', '#4FC3F7']}
+      colors={['#2193b0', '#6dd5ed']}
       style={styles.linear}
     >
       <View style={styles.container}>
@@ -99,7 +102,19 @@ export default function SimulacionDatosTinacoScreen() {
           thumbTintColor="#3b7583"
         />
         <Text style={styles.sliderLabel}>Nivel Actual: {simulatedLevel}%</Text>
-      </View>
+  
+      {/* Botón para abrir el modal de edición */}
+      <TouchableOpacity style={styles.editButton} onPress={() => setIsModalVisible(true)}>
+          <Text style={styles.editButtonText}>Editar Valores</Text>
+        </TouchableOpacity>
+
+        {/* Modal para editar los valores del tinaco */}
+        <EditTinacoModal visible={isModalVisible} onClose={() => setIsModalVisible(false)} />
+
+
+
+    </View>
+      
     </LinearGradient>
   );
 }
@@ -166,4 +181,17 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     marginTop: 10,
   },
+  editButton: {
+    marginTop: 20,
+    paddingVertical: 12,
+    paddingHorizontal: 25,
+    backgroundColor: '#4FC3F7',
+    borderRadius: 8,
+  },
+  editButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+
 });
